@@ -49,7 +49,8 @@ Today's AI algorithms (Transformer, backpropagation, etc.) are all designed by h
 
 ---
 ## About me
-I come form china,I am 15 years old now,I put some video in bilibili about me,but this video is chinese,and you can email me 18933765381@163.com,thanks,you can see my video https://www.bilibili.com/video/BV1qig96CEdy/?spm_id_from=333.1387.homepage.video_card.click，thank you see this project
+I come form china,I am 15 years old now,I put some video in bilibili about me,but this video is chinese,and you can email me 18933765381@163.com,thanks,you can see my video https://www.bilibili.com/video/BV1qig96CEdy/?spm_id_from=333.1387.homepage.video_card.click  
+thank you see this project
 ## One-Line Summary
 
 > **C-SCA = Let AI discover mathematics, not just learn it.**
