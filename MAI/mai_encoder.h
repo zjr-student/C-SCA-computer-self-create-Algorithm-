@@ -118,24 +118,80 @@ char* decode_token(char *code) {
     }
     return NULL;
 }
-//解析一段文本
-char* decode_some_text(char* text bool mode){
-    int leaght=strlen(text);
-    char result[];
-    while(leaght==0){
-        char first_token=text[0];
-        char second_token=text[1];
-        char text_result[]=first_token+second_token;
-        if(mode){
-            //判定为编码
-            text_result=encode_token(text_result);
+
+
+/* ========================= 编码器 ========================= */
+
+/**
+ * 将一段人类可读的 MAI 代码转换为数字编码流
+ * 
+ * 示例：
+ *   输入: "A = 5"
+ *   输出: "66 15 05"
+ * 
+ * 参数：
+ *   input  - 人类可读的代码字符串
+ *   output - 用于存放编码结果的缓冲区
+ * 
+ * 返回值：
+ *   编码成功返回 1，失败返回 0
+ */
+int mai_encode(char *input, char *output) {
+    if (!input || !output) return 0;
+    output[0] = '\0';
+
+    char *token = strtok(input, " \t\n");
+    while (token != NULL) {
+        char *code = encode_token(token);
+        if (code == NULL) {
+            fprintf(stderr, "错误：未识别的 token — %s\n", token);
+            return 0;
         }
-        else{
-            //判定为解码
-            text_result=decode_token(text_result);
-        }
-        result=result+text_result;
-        leaght=leaght-2;
+        strcat(output, code);
+        strcat(output, " ");
+        token = strtok(NULL, " \t\n");
     }
-    return result;
+    return 1;
+}
+
+
+/* ========================= 解码器 ========================= */
+
+/**
+ * 将 MAI 数字编码流还原为人类可读的符号序列
+ * 
+ * 示例：
+ *   输入: "66 15 05"
+ *   输出: "A = 5"
+ * 
+ * 参数：
+ *   input  - 以空格分隔的编码字符串（如 "66 15 05"）
+ *   output - 用于存放解码结果的缓冲区
+ * 
+ * 返回值：
+ *   解码成功返回 1，失败返回 0
+ */
+int mai_decode(char *input, char *output) {
+    if (!input || !output) return 0;
+    output[0] = '\0';
+
+    char *token = strtok(input, " ");
+    while (token != NULL) {
+        // 检查编码长度是否为 2 位
+        if (strlen(token) != 2) {
+            fprintf(stderr, "错误：编码长度不是 2 位 — %s\n", token);
+            return 0;
+        }
+
+        char *key = decode_token(token);
+        if (key == NULL) {
+            fprintf(stderr, "错误：未识别的编码 — %s\n", token);
+            return 0;
+        }
+
+        strcat(output, key);
+        strcat(output, " ");
+        token = strtok(NULL, " ");
+    }
+    return 1;
 }
